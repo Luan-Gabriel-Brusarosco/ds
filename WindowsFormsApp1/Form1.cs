@@ -19,7 +19,24 @@ namespace WindowsFormsApp1
         }
 
         List<Aluno> listaAlunos = new List<Aluno>();
-         
+
+        public void carregarLista()
+        {
+            dataGridView1.Rows.Clear();
+            foreach (Aluno al in listaAlunos)
+            {
+                dataGridView1.Rows.Add(
+                    al.ra,
+                    al.nome,
+                    al.n1,
+                    al.n2,
+                    al.n3,
+                    al.n4,
+                    al.media,
+                    al.situacao
+                    );
+            }
+        }
         private void BtnEnviar_Click(object sender, EventArgs e)
         {
 
@@ -34,24 +51,26 @@ namespace WindowsFormsApp1
 
             a.calcMedia();
             a.defSituacao();
-
-            
-                dataGridView1.Rows.Clear();
-                //foreach (Aluno a in listaAlunos)
-                {
-                    dataGridView1.Rows.Add(
-                        a.ra,
-                        a.nome,
-                        a.n1,
-                        a.n2,
-                        a.n3,
-                        a.n4,
-                        a.media,
-                        a.situacao
-                        );
-                }
                 
-            
+
+            bool existe = false;
+            foreach (Aluno al in listaAlunos)
+            {
+                if (al.ra == a.ra)
+                {
+                    existe = true;
+                }
+            }
+            if (!existe)
+            {
+                listaAlunos.Add(a);
+                carregarLista();
+                MessageBox.Show("Aluno adicionado com sucesso!!!");
+            }
+            else
+            {
+                MessageBox.Show("Aluno já existe!!");
+            }
         }
 
         private void Form1_Load(object sender, EventArgs e)
